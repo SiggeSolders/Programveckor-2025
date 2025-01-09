@@ -8,6 +8,7 @@ public class day_night : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
+        //roterar lampans x axel
         rotation.x = day_cycle * Time.deltaTime;
         transform.Rotate(rotation, Space.World);
     }

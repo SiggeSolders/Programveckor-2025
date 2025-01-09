@@ -39,6 +39,7 @@ public class AnimalMovement : MonoBehaviour
         }
     }
     
+    // går långsamt till slumpmässiga positioner innom den satta rangen
     void NaturalState()
     {
         agent.speed = 2;
@@ -56,32 +57,41 @@ public class AnimalMovement : MonoBehaviour
         }
     }
 
+    //Slumpar fram en destination innom range och innom navmeshen
     void FindDestination()
     {
         float z = Random.Range(-walkingRange, walkingRange);
         float x = Random.Range(-walkingRange, walkingRange);
 
+        
         destinationPoint = new Vector3(transform.position.x + x, transform.position.y, transform.position.z + z);
 
+        //Kollar om destinationen är innom navmeshens gränser
         if(Physics.Raycast(destinationPoint,Vector3.down, groundLayer))
         {
             isWalking = true;
         }
     }
+    //springer ifrån spelaren snabbt i en 35-graders vinkel
     void Run()
     {
         agent.speed = 10;
+        //Springer åt motsatt håll från spelaren
         runDirection = (player.transform.position - transform.position).normalized;
-        runDirection = Quaternion.AngleAxis(45, Vector3.up) * runDirection;
-        magnitude = runDirection.magnitude; //det blir 1
+        //Gör att den springer i en 35-graders vinkel
+        runDirection = Quaternion.AngleAxis(35, Vector3.up) * runDirection;
+        //avrundar direction till 1
+        magnitude = runDirection.magnitude; 
         agent.SetDestination(transform.position - (runDirection * 5));
     }
 
 
+    //När spelaren är innom triggern flyr djuret
     private void OnTriggerEnter(Collider other)
     {
         isRunning = true;
     }
+    //När spelaren inte längre är nära går den tillbaka till natural state
     private void OnTriggerExit(Collider other)
     {
         isRunning = false;
