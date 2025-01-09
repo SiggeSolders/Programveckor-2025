@@ -18,6 +18,11 @@ public class AnimalMovement : MonoBehaviour
     Vector3 runDirection;
     float magnitude;
     bool isRunning;
+    public float health = 50f;
+    bool isAlive = true;
+    bool isCarried = false;
+
+    
 
     // Start is called before the first frame update
     void Start()
@@ -29,13 +34,24 @@ public class AnimalMovement : MonoBehaviour
     void Update()
     {
 
-        if (isRunning)
+        if (isRunning && isAlive)
         {
             Run();
         }
+        if(isAlive == false)
+        {
+            agent.destination = transform.position;
+        }
+        if (isCarried)
+        {
+            transform.position = (player.transform.position += new Vector3(0, 0, 2));
+        }
         else
         {
-            NaturalState();
+            if (isAlive)
+            {
+                NaturalState();
+            }
         }
     }
     
@@ -98,4 +114,31 @@ public class AnimalMovement : MonoBehaviour
         agent.speed = 2;
     }
 
+    public void TakeDamage(float amount)
+    {
+        print("ouch");
+        health -= amount;
+        if (health <= 0f)
+        {
+            Die();
+        }
+    }
+    void Die()
+    {
+        isAlive = false;
+        print("not alive");
+    }
+
+    private void OnCollisionEnter(Collision collision)
+    {
+        if (isAlive == false)
+        {
+            print("not alive tuch");
+            if (collision.gameObject.layer == 6)
+            {
+                print("layer tuch");
+                isCarried = true;
+            }
+        }
+    }
 }
