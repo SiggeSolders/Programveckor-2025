@@ -19,8 +19,8 @@ public class AnimalMovement : MonoBehaviour
     float magnitude;
     bool isRunning;
     public float health = 50f;
-    bool isAlive = true;
-    bool isCarried = false;
+    public bool isAlive = true;
+
 
     
 
@@ -40,15 +40,11 @@ public class AnimalMovement : MonoBehaviour
         }
         if(isAlive == false)
         {
-            agent.destination = transform.position;
-        }
-        if (isCarried)
-        {
-            transform.position = (player.transform.position += new Vector3(0, 0, 2));
+            agent.enabled = false;
         }
         else
         {
-            if (isAlive)
+            if (isAlive && isRunning == false)
             {
                 NaturalState();
             }
@@ -105,7 +101,7 @@ public class AnimalMovement : MonoBehaviour
     //När spelaren är innom triggern flyr djuret
     private void OnTriggerEnter(Collider other)
     {
-        isRunning = true;
+            isRunning = true;
     }
     //När spelaren inte längre är nära går den tillbaka till natural state
     private void OnTriggerExit(Collider other)
@@ -116,7 +112,6 @@ public class AnimalMovement : MonoBehaviour
 
     public void TakeDamage(float amount)
     {
-        print("ouch");
         health -= amount;
         if (health <= 0f)
         {
@@ -126,19 +121,6 @@ public class AnimalMovement : MonoBehaviour
     void Die()
     {
         isAlive = false;
-        print("not alive");
     }
 
-    private void OnCollisionEnter(Collision collision)
-    {
-        if (isAlive == false)
-        {
-            print("not alive tuch");
-            if (collision.gameObject.layer == 6)
-            {
-                print("layer tuch");
-                isCarried = true;
-            }
-        }
-    }
 }
