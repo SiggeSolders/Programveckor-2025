@@ -7,10 +7,10 @@ public class GoalsScript : MonoBehaviour
 {
     [SerializeField] TextMeshProUGUI moneyText;
     [SerializeField] TextMeshProUGUI soulText;
-    int money;
+    public int money;
     int moneyGoal;
     int soulGoal;
-    int souls;
+    public int souls;
     int day;
     // Start is called before the first frame update
     void Start()
@@ -39,6 +39,6 @@ public class GoalsScript : MonoBehaviour
             soulGoal = 250;
         }
         moneyText.text = ("Money: " + money + ("/") + moneyGoal);
-        soulText.text = ("Money: " + souls + ("/") + soulGoal);
+        soulText.text = ("Souls: " + souls + ("/") + soulGoal);
     }
 }

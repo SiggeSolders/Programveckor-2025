@@ -25,7 +25,6 @@ public class PickUp : MonoBehaviour
         AnimalMovement AM = animal.GetComponent<AnimalMovement>();
         if (AM.isAlive == false)
         {
-            print("layer tuch");
             isCarried = true;
         }
     }
